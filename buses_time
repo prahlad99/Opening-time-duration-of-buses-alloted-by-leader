@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int buses_Interval(vector<string >& tasks, int n) {
+        unordered_map<string , int> counts;
+        for (string t : tasks) {
+            counts[t]++;
+        }
+        priority_queue<int> pq;
+        for (pair<string , int> count : counts) {
+            pq.push(count.second);
+        }
+        int alltime = 0;
+        int cycle = n + 1;
+        while (!pq.empty()) {
+            int time = 0;
+            vector<int> tmp;
+            for (int i = 0; i < cycle; i++) {
+                if (!pq.empty()) {
+                    tmp.push_back(pq.top());
+                    pq.pop();
+                    time++;
+                }
+            }
+            for (int cnt : tmp) {
+                if (--cnt) {
+                    pq.push(cnt);
+                }
+            }
+            alltime += !pq.empty() ? cycle : time;
+        }
+        return alltime;
+    }
+};
+int main(){
+string buses={'ranchi','dhanbad','ranchi','ranchi','dhanbad','ranchi','hazaribhg','ranchi','ranchi'}
+int steps_in_hour;
+cin>>steps_in_hour;  
+int all_buses_left_time=buses_Interval(buses,steps_in_hour);
+cout<<"ALL buses are open no any buses are left in bus_stand time of lefting:"<<all_buses_left_time;
+}
